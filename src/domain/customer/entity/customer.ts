@@ -1,5 +1,5 @@
 import Entity from "../../@shared/entity/entity.abstract";
-import Address from "../value-object/address";
+import type Address from "../value-object/address";
 import NotificationError from "../../@shared/notification/notification.error";
 import CustomerValidatorFactory from "../factory/customer.validator.factory";
 
@@ -10,8 +10,7 @@ export default class Customer extends Entity {
   private _rewardPoints: number = 0;
 
   constructor(id: string, name: string) {
-    super();
-    this._id = id;
+    super(id);
     this._name = name;
     this.validate();
     if (this.notification.hasErrors()) {

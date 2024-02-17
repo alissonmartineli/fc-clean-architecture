@@ -15,7 +15,7 @@ describe("Customer repository test", () => {
       sync: { force: true },
     });
 
-    await sequelize.addModels([CustomerModel]);
+    sequelize.addModels([CustomerModel]);
     await sequelize.sync();
   });
 
@@ -32,7 +32,7 @@ describe("Customer repository test", () => {
 
     const customerModel = await CustomerModel.findOne({ where: { id: "123" } });
 
-    expect(customerModel.toJSON()).toStrictEqual({
+    expect(customerModel?.toJSON()).toStrictEqual({
       id: "123",
       name: customer.name,
       active: customer.isActive(),
@@ -55,7 +55,7 @@ describe("Customer repository test", () => {
     await customerRepository.update(customer);
     const customerModel = await CustomerModel.findOne({ where: { id: "123" } });
 
-    expect(customerModel.toJSON()).toStrictEqual({
+    expect(customerModel?.toJSON()).toStrictEqual({
       id: "123",
       name: customer.name,
       active: customer.isActive(),
@@ -82,7 +82,7 @@ describe("Customer repository test", () => {
   it("should throw an error when customer is not found", async () => {
     const customerRepository = new CustomerRepository();
 
-    expect(async () => {
+    await expect(async () => {
       await customerRepository.find("456ABC");
     }).rejects.toThrow("Customer not found");
   });
